@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 class VarosController extends Controller
 {
     public function varosLekerese($megyeid){
-        $varosok = Varos::where('megyeid', $megyeid)->get();
+        $varosok = Varos::where('county_id', $megyeid)->get();
         return response()->json(['varosok' => $varosok]);
     }
     public function varosHozzaad(Request $request){
         $this->validate($request, [
-            'nev'=> 'required',
-            'megyeId' => 'required',
+            'name'=> 'required',
+            'county_id' => 'required',
         ]);
         Varos::create($request->all());
         return response()->json(['message' => 'Adat sikeresen hozzáadva']);

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('varosok', function (Blueprint $table) {
+        Schema::create('city', function (Blueprint $table) {
             $table->id();
-            $table->string('nev');
-            $table->integer('megyeId');
+            $table->string('name');
+            $table->integer('county_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('varosok');
+        Schema::dropIfExists('city');
     }
 };

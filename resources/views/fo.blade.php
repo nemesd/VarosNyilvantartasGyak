@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Város Nyilvántartás</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <title>Város Nyilvántartás</title>
 </head>
 <body>
     <div class="container">
@@ -17,7 +19,7 @@
             <option value="" selected="selected" hidden>Válassz megyét</option>
             {{-- Belerakja a megyéket a select-be --}}
             @foreach($megyek as $megye)
-                <option value="{{$megye['id']}}">{{$megye['nev']}}</option>
+                <option value="{{$megye['id']}}">{{$megye['name']}}</option>
             @endforeach
         </select>
     </div>
@@ -26,7 +28,7 @@
         {{-- Városok helye --}}
     </div>
 
-    <div class="container" style="display: none" id="ujVarosBlock"> 
+    <div class="container" id="ujVarosBlock" style="display: none"> 
         <h3>Város hozzáadása:</h3> {{-- Itt adható meg az új város az kiválasztott megyéhez --}}
         <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
         <input type="text" class="form-control mb-3" name="ujVaros" id="ujVaros">
@@ -36,16 +38,9 @@
 
 
 
-
-
-
-
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    megyeValasztas($('#megyeValaszto').val()); //Mikor betölt az oldal ne legyen üres a városok listája
-    document.getElementById('ujVarosKuldes').addEventListener("click", ujVaros);
-    function megyeValasztas(megyeId) { //Kilistázza a városokat amikor a select értéke változik
+    megyeValasztas($('#megyeValaszto').val()); // Mikor betölt az oldal ne legyen üres a városok listája
+    function megyeValasztas(megyeId) { // Kilistázza a városokat amikor a select értéke változik
         if (megyeId) {
             // Ajax kérés a városok lekéréséhez a kiválasztott megye alapján
             $('#ujVarosBlock').show();
@@ -53,38 +48,39 @@
                 type: 'GET',
                 url: '/varosLekerese/' + megyeId,
                 success: function (data) {
-                    var varosLista = $('#varosLista');
+                    let varosLista = $('#varosLista');
                     varosLista.empty();
 
-                    $.each(data.varosok, function (index, varos) {
+                    $.each(data.varosok, function (index, city) {
                           varosLista.append(
                               '<div class="mb-3 mt-3">\n'+
-                                  '<span class="city-name" id="'+varos.id+'" data-cityid="'+varos.id+'">'+
-                                      varos.nev+
+                                  '<span class="city-name" id="'+city.id+'" data-cityid="'+city.id+'">'+
+                                    city.name+
                                   '</span>\n'+
-                                  '<div class="city-action" style="display:none;">\n'+
-                                      '<input type="text" class="szovegDoboz form-control mb-3" id="ujVarosNev'+varos.id+'">\n'+
+                                  '<div class="city-action" style="display:none">\n'+
+                                      '<input type="text" class="szovegDoboz form-control mb-3" id="ujVarosNev'+city.id+'">\n'+
                                       '<button class="modosit btn btn-primary">Módosítás</button>\n'+
                                       '<button class="torol btn btn-danger">Törlés</button>\n'+
                                       '<button class="megse btn btn-secondary">Mégsem</button>\n'+
                                   '</div>\n'+
                               '</div>\n'
                          );
-                        document.getElementById(varos.id).addEventListener("click", varosEdit);
+                        document.getElementById(city.id).addEventListener("click", varosEdit);
                     });
                 }
             });
         }
     };
     function varosEdit(){ //Városok szerkesztéséhez használt menüpontok kezelése
-        var varosId = $(this).data('cityid');
-        var eredetiText = $(this).text();
-        var eredetiLi = $(this);
-        var actionController = $(this).siblings('div');
-        var szovegDob = actionController.find('.szovegDoboz');
-        var modosit = actionController.find('.modosit');
-        var torol = actionController.find('.torol');
-        var megse = actionController.find('.megse');
+        let varosId = $(this).data('cityid');
+        let eredetiText = $(this).text();
+        let eredetiLi = $(this);
+        let actionController = $(this).siblings('div');
+        let szovegDob = actionController.find('.szovegDoboz');
+        let modosit = actionController.find('.modosit');
+        let torol = actionController.find('.torol');
+        let megse = actionController.find('.megse');
+        let alert = document.getElementById('alert');
 
         eredetiLi.hide();
         actionController.show();
@@ -96,17 +92,17 @@
         });
 
         modosit.click(function(){ //Módosítás gomb működése
-            var varosUjNeve = $('#ujVarosNev'+varosId).val();
+            let varosUjNeve = $('#ujVarosNev'+varosId).val();
             $.ajax({
                 type: 'POST',
                 url: '{{ route('varosModosit') }}',
                 data: {
                     _token: $("#csrf").val(),
                     id: varosId,
-                    nev: varosUjNeve,
+                    name: varosUjNeve,
                 },
                 success: function(response) {
-                    alert(response.message);
+                    //alert(response.message);
                 },
                 error: function(error) {
                     console.error('Error:', error);
@@ -126,7 +122,7 @@
                     id: varosId,
                 },
                 success: function(response) {
-                    alert(response.message);
+                    //alert(response.message);
                 },
                 error: function(error) {
                     console.error('Error:', error);
@@ -136,15 +132,15 @@
         });
     }
     function varosHozzaad(){ //Új város felvételének működése
-        var varosNeve = $('#ujVaros').val();
-        var megyeId = $('#megyeValaszto').val();
+        let varosNeve = $('#ujVaros').val();
+        let megyeId = $('#megyeValaszto').val();
         $.ajax({
             type: 'POST',
             url: '{{ route('varosHozzaad') }}',
             data: {
                 _token: $("#csrf").val(),
-                nev: varosNeve,
-                megyeId: megyeId,
+                name: varosNeve,
+                county_id: megyeId,
             },
             success: function(response) {
                 alert(response.message);

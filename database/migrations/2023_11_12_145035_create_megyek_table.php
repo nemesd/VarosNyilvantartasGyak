@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('megyek', function (Blueprint $table) {
+        Schema::create('county', function (Blueprint $table) {
             $table->id();
-            $table->string('nev');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('megyek');
+        Schema::dropIfExists('county');
     }
 };

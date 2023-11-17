@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
 
 class Varos extends Model
 {
-    use HasFactory;
     use SoftDeletes;
-    protected $table = 'varosok';
-    protected $fillable = ['nev', 'megyeId'];
+    protected $table = 'city';
+    protected $fillable = ['name', 'county_id'];
+
+    public function counties(){
+        return $this->hasMany('App\Models\Megye');
+    }
 }
