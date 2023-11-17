@@ -1,3 +1,7 @@
 .hidden{
     display: none;
 }
+.city-name:hover{
+    color: royalblue;
+    cursor: pointer;
+}

@@ -1,5 +1,14 @@
-function varosHozzaad(){ //Új város felvételének működése
+// Figyeli hogy entert lenyomodik e a textboxban ha igen meghivja a varosHozzaAd();
+let input = $('#ujVaros').on("keypress", function(event){
+    if(event.key == "Enter"){
+        varosHozzaAd();
+    }
+});
+function varosHozzaAd(){ // Új város felvételének működése
     let varosNeve = $('#ujVaros').val();
+    if(varosNeve == ""){ // Ha üres nevet addnak meg egyböl leáll
+        return;
+    }
     let megyeId = $('#megyeValaszto').val();
     $.ajaxSetup({
         headers: {
@@ -8,7 +17,7 @@ function varosHozzaad(){ //Új város felvételének működése
     });
     $.ajax({
         type: 'POST',
-        url: '/varosHozzaad/',
+        url: '/varosHozzaAd/',
         data: {
             name: varosNeve,
             county_id: megyeId,

@@ -28,10 +28,10 @@ Route::get('/', function () {
 Route::get('/varosLekerese/{megye}', [VarosController::class, 'varosLekerese']);
 
 //Városok hozzáadására használt route
-Route::post('/varosHozzaad', [VarosController::class, 'varosHozzaad'])->name('varosHozzaad');;
+Route::post('/varosHozzaAd', [VarosController::class, 'varosHozzaAd']);
 
 //Városok módosítására használt route
-Route::post('/varosModosit', [VarosController::class, 'varosModosit'])->name('varosModosit');;
+Route::post('/varosModosit', [VarosController::class, 'varosModosit']);
 
 //Városok törlésére használt route
-Route::post('/varosTorol', [VarosController::class, 'varosTorol'])->name('varosTorol');;
+Route::post('/varosTorol', [VarosController::class, 'varosTorol']);

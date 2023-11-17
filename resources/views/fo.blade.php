@@ -37,7 +37,7 @@
     <div class="container hidden" id="ujVarosBlock"> 
         <h3>Város hozzáadása:</h3> {{-- Itt adható meg az új város az kiválasztott megyéhez --}}
         <input type="text" class="form-control mb-3" name="ujVaros" id="ujVaros">
-        <button class="btn btn-primary" id="ujVarosKuldes" onclick="varosHozzaad()">Küldés</button>
+        <button class="btn btn-primary" id="ujVarosKuldes" onclick="varosHozzaAd()">Küldés</button>
     </div>
 
     <div id="alertContainer" class="position-fixed top-0 end-0 p-3">

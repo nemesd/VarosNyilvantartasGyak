@@ -1,4 +1,12 @@
-function varosEdit(varosId){ //Városok szerkesztéséhez használt menüpontok kezelése
+let editCounter = 0;
+
+//Városok szerkesztéséhez használt menüpontok kezelése
+function varosEdit(varosId){
+    if(editCounter > 0){
+        return;
+    }
+    console.log(varosId);
+    editCounter++;
     let eredetiText = $('#varos'+varosId).text();
     let eredetiLi = $('#varos'+varosId);
     let actionController = $('#varos'+varosId).siblings('div');
@@ -11,12 +19,15 @@ function varosEdit(varosId){ //Városok szerkesztéséhez használt menüpontok 
     actionController.show();
     szovegDob.val(eredetiText);
 
-    megse.click(function(){ //Mégse gomb müködése
+    //Mégse gomb müködése
+    megse.click(function(){
         actionController.hide();
         eredetiLi.show();
+        editCounter--;
     });
-
-    modosit.click(function(){ //Módosítás gomb működése
+    
+    //Módosítás gomb működése
+    modosit.click(function(){
         let varosUjNeve = $('#ujVarosNev'+varosId).val();
         $.ajaxSetup({
             headers: {
@@ -40,15 +51,21 @@ function varosEdit(varosId){ //Városok szerkesztéséhez használt menüpontok 
         });
         actionController.hide();
         eredetiLi.show();
+        editCounter--;
         megyeValasztas($('#megyeValaszto').val());
     });
 
-    torol.click(function(){ //Töröl gomb működése
+    //Töröl gomb működése
+    torol.click(function(){
+        $.ajaxSetup({
+            headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+         });
         $.ajax({
             type: 'POST',
             url: '/varosTorol/',
             data: {
-                _token: $("#csrf").val(),
                 id: varosId,
             },
             success: function(response) {
@@ -59,6 +76,7 @@ function varosEdit(varosId){ //Városok szerkesztéséhez használt menüpontok 
                 showAlert('Sikertelen', 'danger');
             }
         });
+        editCounter--;
         megyeValasztas($('#megyeValaszto').val());
     });
 }
