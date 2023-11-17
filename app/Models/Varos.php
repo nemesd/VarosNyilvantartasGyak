@@ -11,7 +11,7 @@ class Varos extends Model
     protected $table = 'city';
     protected $fillable = ['name', 'county_id'];
 
-    public function counties(){
-        return $this->hasMany('App\Models\Megye');
+    public function county(){
+        return $this->belongsTo(Megye::class, 'id', 'county_id');
     }
 }

@@ -18,11 +18,15 @@ function varosEdit(varosId){ //Városok szerkesztéséhez használt menüpontok 
 
     modosit.click(function(){ //Módosítás gomb működése
         let varosUjNeve = $('#ujVarosNev'+varosId).val();
+        $.ajaxSetup({
+            headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+         });
         $.ajax({
             type: 'POST',
             url: '/varosModosit/',
             data: {
-                _token: $("#csrf").val(),
                 id: varosId,
                 name: varosUjNeve,
             },
@@ -31,7 +35,7 @@ function varosEdit(varosId){ //Városok szerkesztéséhez használt menüpontok 
             },
             error: function(error) {
                 console.error('Error:', error);
-                showAlert(response.message);
+                showAlert('Sikertelen', 'danger');
             }
         });
         actionController.hide();
@@ -52,7 +56,7 @@ function varosEdit(varosId){ //Városok szerkesztéséhez használt menüpontok 
             },
             error: function(error) {
                 console.error('Error:', error);
-                showAlert(response.message);
+                showAlert('Sikertelen', 'danger');
             }
         });
         megyeValasztas($('#megyeValaszto').val());

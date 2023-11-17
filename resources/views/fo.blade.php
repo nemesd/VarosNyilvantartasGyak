@@ -12,6 +12,7 @@
         <script src="{{ asset('js/MegyeValasztas.js') }}" defer></script>
         <script src="{{ asset('js/UjVarosHozzad.js') }}" defer></script>
         <script src="{{ asset('js/AlertMessage.js') }}" defer></script>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Város Nyilvántartás</title>
 </head>
 <body>
@@ -35,7 +36,6 @@
 
     <div class="container hidden" id="ujVarosBlock"> 
         <h3>Város hozzáadása:</h3> {{-- Itt adható meg az új város az kiválasztott megyéhez --}}
-        <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
         <input type="text" class="form-control mb-3" name="ujVaros" id="ujVaros">
         <button class="btn btn-primary" id="ujVarosKuldes" onclick="varosHozzaad()">Küldés</button>
     </div>

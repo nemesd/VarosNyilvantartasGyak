@@ -9,7 +9,7 @@ class Megye extends Model
     protected $table = 'county';
     protected $nev = 'name';
 
-    public function Megye(){
-        return $this->belongsTo('App\Models\Varos');
+    public function cities(){
+        return $this->hasMany(Varos::class, 'county_id', 'id');
     }
 }

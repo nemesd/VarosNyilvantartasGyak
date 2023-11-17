@@ -17,7 +17,7 @@ function megyeValasztas(megyeId) { // Kilistázza a városokat amikor a select �
                             '<span class="city-name" id="varos'+city.id+'" data-cityid="'+city.id+'">'+
                                 city.name+
                             '</span>\n'+
-                            '<div class="city-action" style="display:none">\n'+
+                            '<div class="city-action hidden">\n'+
                                 '<input type="text" class="szovegDoboz form-control mb-3" id="ujVarosNev'+city.id+'">\n'+
                                 '<button class="modosit btn btn-primary">Módosítás</button>\n'+
                                 '<button class="torol btn btn-danger">Törlés</button>\n'+
