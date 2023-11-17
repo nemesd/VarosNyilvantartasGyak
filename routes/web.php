@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\VarosController;
 use App\Models\Megye;
 use App\Models\Varos;
 use Illuminate\Support\Facades\Route;
@@ -23,15 +22,3 @@ Route::get('/', function () {
         'varosok' => Varos::all(),
     ]);
 });
-
-//Városok lekérésére használt route
-Route::get('/varosLekerese/{megye}', [VarosController::class, 'varosLekerese']);
-
-//Városok hozzáadására használt route
-Route::post('/varosHozzaAd', [VarosController::class, 'varosHozzaAd']);
-
-//Városok módosítására használt route
-Route::post('/varosModosit', [VarosController::class, 'varosModosit']);
-
-//Városok törlésére használt route
-Route::post('/varosTorol', [VarosController::class, 'varosTorol']);

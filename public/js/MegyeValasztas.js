@@ -6,7 +6,7 @@ function megyeValasztas(megyeId) { // Kilistázza a városokat amikor a select �
         $('#ujVarosBlock').show();
         $.ajax({
             type: 'GET',
-            url: '/varosLekerese/' + megyeId,
+            url: 'api/varosLekerese/' + megyeId,
             success: function (data) {
                 let varosLista = $('#varosLista');
                 varosLista.empty();

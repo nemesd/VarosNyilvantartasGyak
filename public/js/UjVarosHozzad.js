@@ -17,16 +17,16 @@ function varosHozzaAd(){ // Új város felvételének működése
     });
     $.ajax({
         type: 'POST',
-        url: '/varosHozzaAd/',
+        url: 'api/varosHozzaAd/',
         data: {
             name: varosNeve,
             county_id: megyeId,
         },
         success: function(response) {
-            if(response.type == 'success'){
-                showAlert(response.message, 'success');
+            if(response.type == 'danger'){
+                showAlert(response.message, response.type);
             } else {
-                showAlert(response.message, 'danger');
+                showAlert(response.message);
             }
         },
         error: function(error) {

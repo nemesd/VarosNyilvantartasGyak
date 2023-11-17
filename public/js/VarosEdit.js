@@ -1,11 +1,9 @@
 let editCounter = 0;
-
 //Városok szerkesztéséhez használt menüpontok kezelése
 function varosEdit(varosId){
     if(editCounter > 0){
         return;
     }
-    console.log(varosId);
     editCounter++;
     let eredetiText = $('#varos'+varosId).text();
     let eredetiLi = $('#varos'+varosId);
@@ -14,6 +12,12 @@ function varosEdit(varosId){
     let modosit = actionController.find('.modosit');
     let torol = actionController.find('.torol');
     let megse = actionController.find('.megse');
+
+    szovegDob.on("keypress", function(event){
+        if(event.key == "Enter"){
+            modosit();
+        }
+    });
 
     eredetiLi.hide();
     actionController.show();
@@ -27,7 +31,7 @@ function varosEdit(varosId){
     });
     
     //Módosítás gomb működése
-    modosit.click(function(){
+    modosit.click(function modosit(){
         let varosUjNeve = $('#ujVarosNev'+varosId).val();
         $.ajaxSetup({
             headers: {
@@ -36,13 +40,18 @@ function varosEdit(varosId){
          });
         $.ajax({
             type: 'POST',
-            url: '/varosModosit/',
+            url: 'api/varosModosit/',
             data: {
                 id: varosId,
                 name: varosUjNeve,
+                county_id: $('#megyeValaszto').val(),
             },
             success: function(response) {
-                showAlert(response.message, 'success');
+                if(response.type == 'danger'){
+                    showAlert(response.message, response.type);
+                } else {
+                    showAlert(response.message);
+                }
             },
             error: function(error) {
                 console.error('Error:', error);
@@ -64,12 +73,12 @@ function varosEdit(varosId){
          });
         $.ajax({
             type: 'POST',
-            url: '/varosTorol/',
+            url: 'api/varosTorol/',
             data: {
                 id: varosId,
             },
             success: function(response) {
-                showAlert(response.message, 'success');
+                showAlert(response.message);
             },
             error: function(error) {
                 console.error('Error:', error);

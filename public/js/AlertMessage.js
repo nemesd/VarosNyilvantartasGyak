@@ -1,6 +1,7 @@
 let alertCount = 0; //Értesítés számláló id-hez
 
-function showAlert(message, type) { // Generál egy értesítést
+// Generál egy értesítést
+function showAlert(message, type = 'success') {
     alertCount++;
     let alertId = 'alert-' + alertCount; // Egyedi id
 
@@ -14,8 +15,8 @@ function showAlert(message, type) { // Generál egy értesítést
     $('#alertContainer').append(alertHTML);
 
 
-    
-    setTimeout(function() { // Automatikusan kitörli az értesítést 5mp után
+    // Automatikusan kitörli az értesítést 5mp után
+    setTimeout(function() {
         $('#' + alertId).alert('close');
     }, 5000);
 }
