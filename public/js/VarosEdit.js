@@ -5,7 +5,7 @@ function varosEdit(varosId){
         return;
     }
     editCounter++;
-    let eredetiText = $('#varos'+varosId).text();
+    let eredetiNev = $('#varos'+varosId).text();
     let eredetiLi = $('#varos'+varosId);
     let actionController = $('#varos'+varosId).siblings('div');
     let szovegDob = actionController.find('.szovegDoboz');
@@ -15,13 +15,13 @@ function varosEdit(varosId){
 
     szovegDob.on("keypress", function(event){
         if(event.key == "Enter"){
-            modosit();
+            modosit.click();
         }
     });
 
     eredetiLi.hide();
     actionController.show();
-    szovegDob.val(eredetiText);
+    szovegDob.val(eredetiNev);
 
     //Mégse gomb müködése
     megse.click(function(){
@@ -31,8 +31,14 @@ function varosEdit(varosId){
     });
     
     //Módosítás gomb működése
-    modosit.click(function modosit(){
+    modosit.click(function(){
         let varosUjNeve = $('#ujVarosNev'+varosId).val();
+        if(eredetiNev == varosUjNeve){
+            actionController.hide();
+            eredetiLi.show();
+            editCounter--;
+            return;
+        }
         $.ajaxSetup({
             headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
