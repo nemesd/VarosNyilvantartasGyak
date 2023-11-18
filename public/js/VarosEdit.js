@@ -1,5 +1,5 @@
 let editCounter = 0;
-//Városok szerkesztéséhez használt menüpontok kezelése
+// Városok szerkesztéséhez használt menüpontok kezelése
 function varosEdit(varosId){
     if(editCounter > 0){
         return;
@@ -13,26 +13,29 @@ function varosEdit(varosId){
     let torol = actionController.find('.torol');
     let megse = actionController.find('.megse');
 
+    // Szöveg eltüntetése és módosító panel megjelenítése
+    eredetiLi.hide();
+    actionController.show();
+    szovegDob.val(eredetiNev);
+
+    // Enter kezelése város módosító szövegdobozban
     szovegDob.on("keypress", function(event){
         if(event.key == "Enter"){
             modosit.click();
         }
     });
 
-    eredetiLi.hide();
-    actionController.show();
-    szovegDob.val(eredetiNev);
-
-    //Mégse gomb müködése
+    // Mégse gomb müködése
     megse.click(function(){
         actionController.hide();
         eredetiLi.show();
         editCounter--;
     });
     
-    //Módosítás gomb működése
+    // Módosítás gomb működése
     modosit.click(function(){
         let varosUjNeve = $('#ujVarosNev'+varosId).val();
+        // Megnézni változott e a név
         if(eredetiNev == varosUjNeve){
             actionController.hide();
             eredetiLi.show();
@@ -70,7 +73,7 @@ function varosEdit(varosId){
         megyeValasztas($('#megyeValaszto').val());
     });
 
-    //Töröl gomb működése
+    // Töröl gomb működése
     torol.click(function(){
         $.ajaxSetup({
             headers: {
